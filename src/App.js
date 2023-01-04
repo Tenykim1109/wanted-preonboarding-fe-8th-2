@@ -1,9 +1,11 @@
-import './App.css';
+import Header from './components/Header';
+import BoardPage from './pages/Board';
 
 function App() {
   return (
     <div className="App">
-      "Hello, World!"
+      <Header />
+      <BoardPage />
     </div>
   );
 }
