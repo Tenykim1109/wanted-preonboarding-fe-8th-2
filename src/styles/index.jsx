@@ -15,7 +15,7 @@ export const Container = styled.div`
   justify-content: center;
 `;
 
-export const IssueContainer = styled.div`
+export const IssueWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;

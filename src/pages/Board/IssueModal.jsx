@@ -12,19 +12,17 @@ import { TODO, IN_PROGRESS, DONE, ISSUE_MAP } from "../../enums/issueType";
 import { UPDATE } from "../../enums/formType";
 
 function IssueModal({ visible, onClose, uid }) {
-  const [name, setName] = useState("");
-  const [state, setState] = useState(TODO);
+  const [title, setTitle] = useState("");
+  const [status, setStatus] = useState(TODO);
   const [manager, setManager] = useState("");
   const [content, setContent] = useState("");
   const [deadline, setDeadline] = useState("");
   const [loading, setLoading] = useState(false);
-  const [stateBeforeUpdate, setStateBeforeUpdate] = useState("");
 
   const dispatch = useDispatch();
-  const issue = useSelector((state) => state.issueTrack.issue);
+  const issue = useSelector((state) => state.issueTrack.issueList);
   const lastUid = useSelector((state) => state.issueTrack.lastUid);
   const mode = useSelector((state) => state.issueTrack.mode);
-  const target = useSelector((state) => state.issueTrack.target);
 
   const issueType = [TODO, IN_PROGRESS, DONE];
 
@@ -32,14 +30,13 @@ function IssueModal({ visible, onClose, uid }) {
     setLoading(true);
     const getIssue = () => {
       if (mode === UPDATE) {
-        const update_issue = issue[target].filter((val) => val.uid === uid)[0];
+        const update_issue = issue.filter((val) => val.uid === uid)[0];
 
-        setName(update_issue.name);
-        setState(update_issue.state);
+        setTitle(update_issue.title);
+        setStatus(update_issue.status);
         setManager(update_issue.manager);
         setDeadline(update_issue.deadline);
         setContent(update_issue.content);
-        setStateBeforeUpdate(update_issue.state);
       }
     };
 
@@ -56,14 +53,14 @@ function IssueModal({ visible, onClose, uid }) {
           <input
             type="text"
             name="title"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="제목"
           />
           <select
             name="state"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
           >
             {issueType.map((type) => (
               <option key={type} value={type}>
@@ -97,19 +94,18 @@ function IssueModal({ visible, onClose, uid }) {
                 if (mode === UPDATE) {
                   const new_issue = {
                     uid,
-                    name,
-                    state,
+                    title,
+                    status,
                     manager,
                     deadline,
                     content,
-                    stateBeforeUpdate,
                   };
                   dispatch(updateIssue(new_issue));
                 } else {
                   const new_issue = {
                     uid: lastUid,
-                    name,
-                    state,
+                    title,
+                    status,
                     manager,
                     deadline,
                     content,

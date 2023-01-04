@@ -8,28 +8,34 @@ import {
   FlexRow,
 } from "../../styles";
 import { UPDATE } from "../../enums/formType";
-import {
-  setMode,
-  deleteIssue,
-  setTarget,
-} from "../../redux/slice/issue/issueSlice";
+import { setMode, deleteIssue } from "../../redux/slice/issue/issueSlice";
 
-function IssueItem({ name, uid, state, openModal, setUid }) {
-  const handleDrag = (e) => {
-    console.log("drag start");
-  };
-
+function IssueItem({
+  index,
+  title,
+  uid,
+  status,
+  openModal,
+  setUid,
+  dragStartHandler,
+  dragOverHandler,
+  dragDropHandler,
+}) {
   const dispatch = useDispatch();
 
   return (
-    <ItemContainer draggable="true" onDragStart={handleDrag}>
-      <Label>{name}</Label>
+    <ItemContainer
+      draggable="true"
+      onDragStart={(e) => dragStartHandler(e, index)}
+      onDragEnter={(e) => dragOverHandler(e, index, status)}
+      onDragEnd={(e) => dragDropHandler(e, index)}
+    >
+      <Label>{title}</Label>
       <FlexRow>
         <CreateButton
           onClick={() => {
             dispatch(setMode(UPDATE));
             setUid(uid);
-            dispatch(setTarget(state));
             openModal();
           }}
         >
@@ -37,7 +43,7 @@ function IssueItem({ name, uid, state, openModal, setUid }) {
         </CreateButton>
         <DeleteButton
           onClick={() => {
-            dispatch(deleteIssue({ uid, state }));
+            dispatch(deleteIssue({ uid, status }));
           }}
         >
           삭제
