@@ -10,6 +10,7 @@ import { DONE, IN_PROGRESS, TODO } from "../../enums/issueType";
 function BoardPage() {
   const [open, setOpen] = useState(false);
   const [uid, setUid] = useState(0);
+  const [destination, setDestination] = useState("");
   const issueList = useSelector((state) => state.issueTrack.issueList);
 
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function BoardPage() {
 
   const handleDragEnter = (e, position, status) => {
     e.stopPropagation();
+    console.log(e.target.children);
     if (e.target.children[0]?.innerText !== undefined) {
       dragOverItem.current = e.target.children[0]?.innerText;
     }
@@ -41,21 +43,11 @@ function BoardPage() {
     const overIssue = issueList.find((el) => el.title === dragOverItem.current);
     const startSection = dragIssue.status;
 
-    console.log(dragIssue);
-    console.log(overIssue);
-    console.log(startSection);
-    console.log(dragEnterSection.current);
-
     if (startSection === dragEnterSection.current) {
       const initCopyList = [
         ...issueList.filter((el) => el.uid !== dragIssue.uid),
       ];
 
-      console.log("before", initCopyList);
-      console.log(issueList);
-
-      console.log(dragIssue.uid);
-      console.log(overIssue.uid);
       if (
         issueList.findIndex((el) => el.uid === dragIssue.uid) <
         issueList.findIndex((el) => el.uid === overIssue.uid)
@@ -73,30 +65,14 @@ function BoardPage() {
         );
       }
 
-      console.log("after", initCopyList);
       dispatch(updateIssueByDnD(initCopyList));
-      console.log(initCopyList.findIndex((el) => el.uid === overIssue.uid));
-      console.log("얍!");
-      console.log(initCopyList);
     } else {
-      // dragIssue.status = dragEnterSection.current;
-      const res = [
-        ...issueList.filter((el) => el.title !== dragIssueCard.current),
-        { ...dragIssue, status: dragEnterSection.current },
-      ];
-
-      console.log(res);
-
       dispatch(
         updateIssueByDnD([
           ...issueList.filter((el) => el.title !== dragIssueCard.current),
           { ...dragIssue, status: dragEnterSection.current },
         ])
       );
-      // setIssues([
-      //   ...issues.filter((el) => el.title !== dragIssueCard.current),
-      //   { ...dragIssue },
-      // ]);
     }
   };
 
@@ -122,6 +98,7 @@ function BoardPage() {
             dragStartHandler={handleDragStart}
             dragOverHandler={handleDragEnter}
             dragDropHandler={handleDragDrop}
+            setDestination={setDestination}
           />
           <IssueContainer
             issue={issueList.filter((issue) => issue.status === IN_PROGRESS)}
@@ -131,6 +108,7 @@ function BoardPage() {
             dragStartHandler={handleDragStart}
             dragOverHandler={handleDragEnter}
             dragDropHandler={handleDragDrop}
+            setDestination={setDestination}
           />
           <IssueContainer
             issue={issueList.filter((issue) => issue.status === DONE)}
@@ -140,6 +118,7 @@ function BoardPage() {
             dragStartHandler={handleDragStart}
             dragOverHandler={handleDragEnter}
             dragDropHandler={handleDragDrop}
+            setDestination={setDestination}
           />
         </Container>
       </FlexColumn>

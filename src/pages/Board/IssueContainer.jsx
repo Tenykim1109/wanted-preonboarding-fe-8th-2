@@ -11,14 +11,18 @@ function IssueContainer({
   dragStartHandler,
   dragOverHandler,
   dragDropHandler,
+  setDestination,
 }) {
   return (
     <IssueWrapper
+      id={status}
       onDragOver={(e) => {
         e.preventDefault();
       }}
-      onDrop={() => {
-        console.log("완료");
+      onDrop={(e) => {
+        console.log(ISSUE_MAP[status]);
+        setDestination(status);
+        console.log(e.dataTransfer.getData("itemId"));
       }}
     >
       <Label>{ISSUE_MAP[status]}</Label>

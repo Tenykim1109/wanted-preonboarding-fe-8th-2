@@ -128,10 +128,11 @@ export const TitleDiv = styled.div`
 
 export const ModalFrame = styled.div`
   display: flex;
+  justify-content: center;
   overflow: hidden;
   width: 400px;
-  min-height: 80vh;
-  max-height: 80vh;
+  min-height: 40vh;
+  max-height: 48vh;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -145,12 +146,13 @@ export const ModalFrame = styled.div`
 export const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin: 0px 0px 2rem;
   overflow: hidden auto;
   align-self: center;
   max-width: 420px;
-  max-height: 80vh;
-  min-height: 80vh;
+  max-height: 40vh;
+  min-height: 48vh;
   padding: 8px;
 `;
 
@@ -226,6 +228,7 @@ export const ButtonFrame = styled.div`
   border-radius: 0px 0px 20px 20px;
   padding: 20px;
   border-top: 1px solid rgb(225, 225, 225);
+  text-align: center;
 `;
 
 export const Button = styled.button`
@@ -235,4 +238,26 @@ export const Button = styled.button`
   border: 1px solid transparent;
   text-align: center;
   border-radius: 10px;
+`;
+
+const rotation = keyframes`
+    from{
+        transform: rotate(0deg);
+    }
+
+    to{
+        transform: rotate(360deg);
+    }
+
+`;
+
+export const Spinner = styled.div`
+  height: 30px;
+  width: 30px;
+  border: 1px solid #f8049c;
+  border-radius: 50%;
+  border-top: none;
+  border-right: none;
+  margin: 16px auto;
+  animation: ${rotation} 1s linear infinite;
 `;

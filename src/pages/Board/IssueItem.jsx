@@ -23,10 +23,20 @@ function IssueItem({
 }) {
   const dispatch = useDispatch();
 
+  // const handleDragStart = (e, uid) => {
+  //   e.dataTransfer.effectAllowed = "move";
+
+  //   e.dataTransfer.setData("itemId", uid);
+  //   console.log(e.target.parentElement.id);
+
+  //   e.target.classList.add("grabbing");
+  // };
+
   return (
     <ItemContainer
-      draggable="true"
-      onDragStart={(e) => dragStartHandler(e, index)}
+      id={uid}
+      draggable
+      onDragStart={(e) => dragStartHandler()}
       onDragEnter={(e) => dragOverHandler(e, index, status)}
       onDragEnd={(e) => dragDropHandler(e, index)}
     >
